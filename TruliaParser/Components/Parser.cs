@@ -1,14 +1,12 @@
-﻿
-using AngleSharp;
-using AngleSharp.Dom;
+﻿using AngleSharp.Dom;
 using AngleSharp.Parser.Html;
 using TruliaParser.DataProviders;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
 using System.Net;
+
 
 namespace TruliaParser.Components
 {
@@ -78,16 +76,48 @@ namespace TruliaParser.Components
         /// Парсит регион сайта Trulia  
         /// </summary>
         /// <param name="regionLink">Полный адрес сайта региона для выборки</param>
-        public void StartParsing(string regionLink)
+        public void StartParsing(Region region)
         {
-            Console.WriteLine();            
+            string regionLink = region.Link;
+            Console.WriteLine("Beginning the parsing new region:\nState: {0}, County: {1}, Link: {2}", region.State, region.RegionName, region.Link);
+            List<string> offerLinks = new List<string>(GetOffersLinks(regionLink));
+
+
+
+
+
+        }
+
+        private List<string> GetOffersLinks(string regionLink)
+        {
+            int switchProxyRemindCounter = 0; //счетчик количества использования одного прокси
+            IElement nextPageLinkDom = null;
+            List<string> offerLinks = new List<string>();
+            while (true)
+            {
+                switchProxyRemindCounter++;
+                string searchResultPageHtml = WebHelpers.GetHtml(regionLink);
+                var searchResultPageDom = parser.Parse(searchResultPageHtml);
+                var offerLinksDom = searchResultPageDom.QuerySelectorAll("a.tileLink.phm");
+                offerLinks.AddRange(offerLinksDom.ToList().Select(i => i.GetAttribute(Constants.WebAttrsNames.href)));
+                nextPageLinkDom = searchResultPageDom.QuerySelector(".paginationContainer .mrs.bas.pvs.phm:nth-last-child(2)");
+                string nextPageLink = nextPageLinkDom.GetAttribute(Constants.WebAttrsNames.href);
+                Console.WriteLine("Next page link: {0}", nextPageLink);
+                if (switchProxyRemindCounter > 100)
+                {
+                    Console.WriteLine("Refreshing proxy...");
+                    //UpdateInternalProxy();
+                    switchProxyRemindCounter = 0;
+                }
+            }
+
         }
 
 
-
-        
-
-        
-
     }
 }
+
+
+ 
+ 
+        

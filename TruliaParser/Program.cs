@@ -25,14 +25,16 @@ namespace TruliaParser
             options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
 
             List<Region> regions =  DataProvider.Instance.GetRegionsFromDb();
-            foreach (Region reg in regions)
-            {
-                Console.WriteLine(reg);
-            }
+            //foreach (Region reg in regions)
+            //{
+            //    Console.WriteLine(reg);
+            //}
+
+
             //Parallel.ForEach(citiesList, options, (city) =>
             //{
                 Parser p = new Parser();                
-                p.StartParsing(regions[0].Link);
+                p.StartParsing(regions[0]);
 
             //});
 
