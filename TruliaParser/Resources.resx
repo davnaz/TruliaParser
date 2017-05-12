@@ -167,4 +167,8 @@
   <data name="InsertRegionSP" xml:space="preserve">
     <value>SP_Insertregion</value>
   </data>
+  <data name="QuerySelectRegionsUndone" xml:space="preserve">
+    <value>SELECT * FROM Regions WHERE Done = '0'</value>
+    <comment>SQL-запрос для выборки регионов, которые не были спарсены</comment>
+  </data>
 </root>

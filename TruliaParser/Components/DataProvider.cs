@@ -4,6 +4,7 @@ using System.Data;
 using System;
 using TruliaParser.Components;
 using System.Data.Common;
+using System.Collections.Generic;
 
 namespace TruliaParser.DataProviders
 {
@@ -103,8 +104,7 @@ namespace TruliaParser.DataProviders
         public SqlCommand CreateSQLCommand(string query)
         {
             SqlCommand command = new SqlCommand(query, new SqlConnection(Resources.DbConnectionString));
-            command.CommandType = CommandType.Text;
-            
+            command.CommandType = CommandType.Text;            
             return command;
         }
 
@@ -152,9 +152,65 @@ namespace TruliaParser.DataProviders
             return string.Format("@{0}", parameterName);
         }
 
+        /// <summary>
+        /// Console Output for datatable
+        /// </summary>
+        /// <param name="table">Table from Dataset</param>
+        internal static void ConsoleView(DataTable table)
+        {
+            Console.WriteLine("--- ConsoleTable(" + table.TableName + ") ---");
+            int zeilen = table.Rows.Count;
+            int spalten = table.Columns.Count;
 
-        
+            // Header
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                string s = table.Columns[i].ToString();
+                Console.Write(String.Format("{0,-40} | ", s));
+            }
+            Console.WriteLine();
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                Console.Write("-----------------------------------------|-");
+            }
+            Console.WriteLine();
 
+            Console.WriteLine();
+            // Data
+            for (int i = 0; i < zeilen; i++)
+            {
+                DataRow row = table.Rows[i];
+                //Console.WriteLine("{0} {1} ", row[0], row[1]);
+                for (int j = 0; j < spalten; j++)
+                {
+                    string s = row[j].ToString();
+                    s = s.Replace("\n", " ");
+                    if (s.Length > 40) s = s.Substring(0, 37) + "...";
+                    Console.Write(String.Format("{0,-40} | ", s));
+                }
+                Console.WriteLine();
+            }
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                Console.Write("-----------------------------------------|-");
+            }
+            Console.WriteLine();
+        }
+
+        internal List<Region> GetRegionsFromDb()
+        {
+            SqlDataAdapter da = new SqlDataAdapter();
+            SqlCommand cmd = CreateSQLCommand(Resources.QuerySelectRegionsUndone);
+            da.SelectCommand = cmd;
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            List<Region> regions = new List<Region>();
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                regions.Add(new Region(row));
+            }            
+            return regions;
+        }
 
         #endregion
 

@@ -20,16 +20,23 @@ namespace TruliaParser
     {
         static void Main(string[] args)
         {
-            
-            //ParallelOptions options = new ParallelOptions();
-            //options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
+
+            ParallelOptions options = new ParallelOptions();
+            options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
+
+            List<Region> regions =  DataProvider.Instance.GetRegionsFromDb();
+            foreach (Region reg in regions)
+            {
+                Console.WriteLine(reg);
+            }
             //Parallel.ForEach(citiesList, options, (city) =>
             //{
-                Parser p = new Parser();
-                p.StartParsing();
+                Parser p = new Parser();                
+                p.StartParsing(regions[0].Link);
+
             //});
 
-
+            
 
 
             Console.WriteLine("Работа парсера завершена. Для продолжения нажмите любую клавишу...");

@@ -142,6 +142,15 @@ namespace TruliaParser {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на SELECT * FROM Regions WHERE Done = &apos;0&apos;.
+        /// </summary>
+        internal static string QuerySelectRegionsUndone {
+            get {
+                return ResourceManager.GetString("QuerySelectRegionsUndone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на https://geo.Trulia.org/iso/us.
         /// </summary>
         internal static string StartLink {
