@@ -81,35 +81,53 @@ namespace TruliaParser.Components
             string regionLink = region.Link;
             Console.WriteLine("Beginning the parsing new region:\nState: {0}, County: {1}, Link: {2}", region.State, region.RegionName, region.Link);
             List<string> offerLinks = new List<string>(GetOffersLinks(regionLink));
-
-
-
-
-
+            offerLinks.ForEach(i => Console.WriteLine(i));
         }
 
         private List<string> GetOffersLinks(string regionLink)
         {
             int switchProxyRemindCounter = 0; //счетчик количества использования одного прокси
-            IElement nextPageLinkDom = null;
+            string nextPageLink = regionLink;
+            IElement nextPageLinkDom = null;            
             List<string> offerLinks = new List<string>();
             while (true)
             {
                 switchProxyRemindCounter++;
-                string searchResultPageHtml = WebHelpers.GetHtml(regionLink);
-                var searchResultPageDom = parser.Parse(searchResultPageHtml);
-                var offerLinksDom = searchResultPageDom.QuerySelectorAll("a.tileLink.phm");
-                offerLinks.AddRange(offerLinksDom.ToList().Select(i => i.GetAttribute(Constants.WebAttrsNames.href)));
-                nextPageLinkDom = searchResultPageDom.QuerySelector(".paginationContainer .mrs.bas.pvs.phm:nth-last-child(2)");
-                string nextPageLink = nextPageLinkDom.GetAttribute(Constants.WebAttrsNames.href);
-                Console.WriteLine("Next page link: {0}", nextPageLink);
-                if (switchProxyRemindCounter > 100)
+                string searchResultPageHtml = WebHelpers.GetHtml(nextPageLink); //скачали страницу с выдачей
+                var searchResultPageDom = parser.Parse(searchResultPageHtml); //перегнали в DOM
+                var offerLinksDom = searchResultPageDom.QuerySelectorAll(Constants.OfferListSelectors.OfferLinks); //получили все ссылки на предложения
+                if (offerLinksDom != null) //если ссылки на странице есть, собираем в список
+                {
+                    offerLinks.AddRange(offerLinksDom.ToList().Select(i => Resources.BaseLink+i.GetAttribute(Constants.WebAttrsNames.href)));
+                    Console.WriteLine("Добавлено предложений в список/всего: {0}/{1}",offerLinksDom.Length, offerLinks.Count);
+                }
+                else
+                {
+                    Console.WriteLine("На этой странице нет ссылок: {0}", nextPageLink);
+                    break;
+                }
+                
+                nextPageLinkDom = searchResultPageDom.QuerySelector(Constants.OfferListSelectors.NextPage); //обращаемся к элементу, где сидит ссылка на следующую страницу выдачи
+                if(nextPageLinkDom.GetAttribute(Constants.WebAttrsNames.href) != null)
+                {
+                    nextPageLink = nextPageLinkDom.GetAttribute(Constants.WebAttrsNames.href).Replace("//","https://");
+                    
+                    Console.WriteLine("Next page link: {0}", nextPageLink);
+                }       
+                else
+                {
+                    Console.WriteLine("Ссылки на следующую страницу нет. Закансиваем собирать ссылки этого региона, {0}.",regionLink);
+                    break;
+                }
+                
+                if (switchProxyRemindCounter > 10)
                 {
                     Console.WriteLine("Refreshing proxy...");
                     //UpdateInternalProxy();
                     switchProxyRemindCounter = 0;
                 }
             }
+            return offerLinks;
 
         }
 

@@ -17,7 +17,7 @@ namespace TruliaParser.Components
         public class WebAttrsNames
         {
             public const string href = "href";
-            public const string NotFound = "no";
+            public const string NotFound = "no";            
         }
         public class OfferSelectorNames
         {
@@ -37,6 +37,13 @@ namespace TruliaParser.Components
             public const string Updated = ".postinginfo.reveal"; //  get collection, and if Contains "updated", parse value of attr "title"
             public const string City = "li.crumb.area > p > a"; //textContent
         }
+
+        public class OfferListSelectors
+        {
+            public const string NextPage = ".paginationContainer .mrs.bas.pvs.phm:nth-last-child(2)";
+            public const string OfferLinks = "a.tileLink.phm";
+        }
+
 
         public class OfferCellNames
         {

@@ -30,6 +30,21 @@ namespace TruliaParser
             Link = row[3].ToString();
             Done = Convert.ToBoolean(row[4]);
         }
+        /// <summary>
+        /// Возвращает экземпляр класса, созданный вручную из названий штата, региона и ссылки.
+        /// </summary>
+        /// <param name="id">Identificator of Region in DB</param>
+        /// <param name="state">Название штата.</param>
+        /// <param name="regionName">Название региона.</param>
+        /// <param name="link">Ссылка.</param>
+        public Region(string state, string regionName, string link, int id = -1)
+        {
+            ID = id;
+            State = state;
+            RegionName = regionName;
+            Link = link;
+            Done = false;
+        }
 
         public override string ToString()
         {
