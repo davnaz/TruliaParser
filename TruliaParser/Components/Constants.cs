@@ -8,10 +8,17 @@ namespace TruliaParser.Components
 {
     public class Constants
     {
-        public class PriceValues
+        public class OfferPageSelectors
         {
-            public const int undefinedValue = -1;
-            public const int maxValue = 2500;
+            public const string phone = ".property_contact_field.h7.man";
+            public const string idealIncome  = "document.querySelector('span.typeEmphasize.h2').innerText"; // format $0-9
+            public const string description = "document.querySelector('span[itemprop=description]').innerText";
+            public const string metaInfo = "";
+            public const string  = "";
+            public const string  = "";
+            public const string  = "";
+            public const string  = "";
+            public const string  = "";
         }
 
         public class WebAttrsNames
@@ -19,23 +26,41 @@ namespace TruliaParser.Components
             public const string href = "href";
             public const string NotFound = "no";            
         }
-        public class OfferSelectorNames
+        public class OfferJSObjectKeys
         {
-            public const string ID = "link[rel=canonical]"; // trim 'href' 
-            public const string Name = "title"; //textContent
-            public const string Price = "span.price"; //textContent
-            public const string PlaceName = "div.mapaddress"; //textContent
-            public const string PlaceMapsLink = "p.mapaddress a"; //href
-            public const string Description = "#postingbody"; //textContent
-            //public const string BedRooms = ""; 
-            //public const string BathRooms = "";
-            //public const string Square = "";
-            //public const string Availability = "";
-            public const string Image = "";
-            //public const string Additional = "p.attrgroup"; // get collection, and if Contains more then 1 child, return infocollection[infocollection.Length - 1].TextContent.Replace("           ", "");
-            public const string Posted = "#display-date>time";  //Attr title
-            public const string Updated = ".postinginfo.reveal"; //  get collection, and if Contains "updated", parse value of attr "title"
-            public const string City = "li.crumb.area > p > a"; //textContent
+            public const string id = "id";
+            public const string agentName = "agentName";
+            public const string apartmentNumber = "apartmentNumber";
+            public const string city = "city";
+            public const string county = "county";
+            public const string countyFIPS = "countyFIPS";
+            public const string dataPhotos = "dataPhotos";
+            public const string feedId = "feedId";
+            public const string formattedBedAndBath = "formattedBedAndBath";
+            public const string formattedPrice = "formattedPrice";
+            public const string formattedSqft = "formattedSqft";
+            public const string hasPhotos = "hasPhotos";
+            public const string isRentalCommunity = "isRentalCommunity";
+            public const string latitude = "latitude";
+            public const string longitude = "longitude";
+            public const string locationId = "locationId";
+            public const string listingId = "listingId";
+            public const string numBathrooms = "numBathrooms";
+            public const string numBedrooms = "numBedrooms";
+            public const string numBeds = "numBeds";
+            public const string numFullBathrooms = "numFullBathrooms";
+            public const string numPartialBathrooms = "numPartialBathrooms";
+            public const string pdpURL = "pdpURL";
+            public const string price = "price";
+            public const string truliaRank = "truliaRank";
+            public const string type = "type";
+            public const string zipCode = "zipCode";
+            public const string streetNumber = "streetNumber";
+            public const string thumbnail = "thumbnail";
+            public const string sqft = "sqft";
+            public const string stateCode = "stateCode";
+            public const string stateName = "stateName";
+            public const string street = "street";
         }
 
         public class OfferListSelectors
@@ -68,8 +93,8 @@ namespace TruliaParser.Components
         {
             public const string State = "@State";
             public const string RegionName = "@RegionName";
-            public const string Link = "@Link";
-            
+            public const string Link = "@Link";            
         }
+
     }
 }

@@ -6,7 +6,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
-
+using AngleSharp;
+using AngleSharp.Scripting.JavaScript.Services;
+using Jint.Native;
+using AngleSharp.Extensions;
+using Jint.Native.Object;
 
 namespace TruliaParser.Components
 {
@@ -18,7 +22,10 @@ namespace TruliaParser.Components
         public Parser()
         {
             //currentProxy = ProxySolver.Instance.getNewProxy();
-            parser = new HtmlParser(); //создание экземпляра парсера, он можнт быть использован несколько раз для одного потока(экземпляра класса Parser)
+            var config = new Configuration()
+                .WithJavaScript();
+            parser = new HtmlParser(config); //создание экземпляра парсера, он можнт быть использован несколько раз для одного потока(экземпляра класса Parser)
+            
         }
 
         private WebProxy UpdateInternalProxy()
@@ -79,9 +86,24 @@ namespace TruliaParser.Components
         public void StartParsing(Region region)
         {
             string regionLink = region.Link;
-            Console.WriteLine("Beginning the parsing new region:\nState: {0}, County: {1}, Link: {2}", region.State, region.RegionName, region.Link);
-            List<string> offerLinks = new List<string>(GetOffersLinks(regionLink));
-            offerLinks.ForEach(i => Console.WriteLine(i));
+            //Console.WriteLine("Beginning the parsing new region:\nState: {0}, County: {1}, Link: {2}", region.State, region.RegionName, region.Link);
+            //List<string> offerLinks = new List<string>(GetOffersLinks(regionLink));
+           // offerLinks.ForEach(i => Console.WriteLine(i));
+            ParseOffer("https://www.trulia.com/rental-community/9000067073/Point-At-Fairview-669-Covered-Bridge-Pkwy-Prattville-AL-36066/");
+        }
+
+        private void ParseOffer(string offerLink)
+        {
+            string offerHtml;
+            IDocument offerDom;
+            offerHtml = WebHelpers.GetHtml(offerLink);
+            if(offerHtml != Constants.WebAttrsNames.NotFound)
+            {
+                offerDom = parser.Parse(offerHtml.Replace("trulia.propertyData.set","var ourdata = "));
+
+                ObjectInstance result = offerDom.ExecuteScript("ourdata") as  ObjectInstance;
+                Console.WriteLine(result.Get("id").ToString());              
+            }
         }
 
         private List<string> GetOffersLinks(string regionLink)
