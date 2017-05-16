@@ -132,10 +132,6 @@
   <data name="ProxyList" xml:space="preserve">
     <value>proxylist.txt</value>
   </data>
-  <data name="StartLink" xml:space="preserve">
-    <value>https://geo.Trulia.org/iso/us</value>
-    <comment>Указаны все регионы, в которых могут быть предложения </comment>
-  </data>
   <data name="ClearRegionsSPName" xml:space="preserve">
     <value>SP_ClearRegions</value>
     <comment>Процедура для очистки таблицы с ссылками регионов</comment>
@@ -144,25 +140,9 @@
     <value>AddOrUpdateOffer</value>
     <comment>Название Процедуры добавления или изменения предложения в БД</comment>
   </data>
-  <data name="MainLink" xml:space="preserve">
-    <value>https://losangeles.Trulia.org/search/apa</value>
-    <comment>Начальная страница для парсинга</comment>
-  </data>
   <data name="MaxDegreeOfParallelism" xml:space="preserve">
     <value>10</value>
     <comment>Количество потоков. которое будет создавать программа</comment>
-  </data>
-  <data name="TruliaMaxPricePostfixForGetrequest" xml:space="preserve">
-    <value>max_price=</value>
-    <comment>Постфикс для GET-запроса с указанием максимальной цены</comment>
-  </data>
-  <data name="TruliaMaxSearchresvalue" xml:space="preserve">
-    <value>2500</value>
-    <comment>Максимальное количество результатов, которое может выдать сайт</comment>
-  </data>
-  <data name="TruliaMinPricePostfixForGetrequest" xml:space="preserve">
-    <value>min_price=</value>
-    <comment>Постфикс для GET-запроса с указанием минимальной цены</comment>
   </data>
   <data name="InsertRegionSP" xml:space="preserve">
     <value>SP_Insertregion</value>
@@ -170,5 +150,9 @@
   <data name="QuerySelectRegionsUndone" xml:space="preserve">
     <value>SELECT * FROM Regions WHERE Done = '0'</value>
     <comment>SQL-запрос для выборки регионов, которые не были спарсены</comment>
+  </data>
+  <data name="NumberOfLoadRetrying" xml:space="preserve">
+    <value>3</value>
+    <comment>Количество попыток загрузки того или иного ресурса</comment>
   </data>
 </root>

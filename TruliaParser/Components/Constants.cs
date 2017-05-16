@@ -9,28 +9,54 @@ namespace TruliaParser.Components
     public class Constants
     {
         public class OfferPageSelectors
-        {
+        {   
+            /// <summary>
+            /// просто селектор
+            /// </summary>
             public const string phone = ".property_contact_field.h7.man";
-            public const string idealIncome  = "document.querySelector('span.typeEmphasize.h2').innerText"; // format $0-9
-            public const string description = "document.querySelector('span[itemprop=description]').innerText";
-            public const string metaInfo = "";
-            public const string  = "";
-            public const string  = "";
-            public const string  = "";
-            public const string  = "";
-            public const string  = "";
+            /// <summary>
+            /// document.querySelector('span.typeEmphasize.h2').innerText"; // format $0-9
+            /// </summary>
+            public const string idealIncome = "span.typeEmphasize.h2";//"document.querySelector('span.typeEmphasize.h2').innerText"; // format $0-9
+            /// <summary>
+            /// описание - document.querySelector('span[itemprop=description]').innerText";
+            /// </summary>
+            public const string description = "span[itemprop=description]";//"document.querySelector('span[itemprop=description]').innerText";
+            /// <summary>
+            /// "document.querySelectorAll('span.tag')";
+            /// </summary>
+            public const string metaInfo = "span.tag";//"document.querySelectorAll('span.tag')";
+            /// <summary>
+            /// посмотри код в коментарии этого свойства в классе
+            /// </summary>
+            public const string featuresSingle = ".listBulleted.mbn li";//"for (i = 0;i < document.querySelectorAll('.listBulleted.mbn li').length;i++) { console.log(document.querySelectorAll('.listBulleted.mbn li')[i].innerText); }";
+            /// <summary>
+            /// console.log(document.querySelectorAll('.listBulleted.mll li')[i].innerText);
+            /// </summary>
+            public const string featuresCommunity = ".listBulleted.mll li"; //console.log(document.querySelectorAll('.listBulleted.mll li')[i].innerText);
+            /// <summary>
+            /// document.querySelectorAll("#listingHomeDetailsContainer div.mtm > span.typeEmphasize")[0].parentElement.textContent
+            /// </summary>
+            public const string communityOtherFeatures = "#listingHomeDetailsContainer div.mtm > span.typeEmphasize"; //document.querySelectorAll("#listingHomeDetailsContainer div.mtm > span.typeEmphasize")[0].parentElement.textContent
+            /// <summary>
+            /// document.querySelectorAll('[data-floorplan]')
+            /// </summary>
+            public const string communityFloors = "[data-floorplan]"; //document.querySelectorAll('[data-floorplan]')
+            /// <summary>
+            /// Если первый селектор не прокатил
+            /// </summary>
+            public const string phoneAlt = "#contactAside > div > div > span";
         }
 
         public class WebAttrsNames
         {
             public const string href = "href";
-            public const string NotFound = "no";            
+            public const string NotFound = "no";  
         }
         public class OfferJSObjectKeys
         {
             public const string id = "id";
             public const string agentName = "agentName";
-            public const string apartmentNumber = "apartmentNumber";
             public const string city = "city";
             public const string county = "county";
             public const string countyFIPS = "countyFIPS";
@@ -61,6 +87,7 @@ namespace TruliaParser.Components
             public const string stateCode = "stateCode";
             public const string stateName = "stateName";
             public const string street = "street";
+            public const string addressForDisplay = "addressForDisplay";
         }
 
         public class OfferListSelectors

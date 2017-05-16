@@ -89,20 +89,34 @@ namespace TruliaParser.Components
             //Console.WriteLine("Beginning the parsing new region:\nState: {0}, County: {1}, Link: {2}", region.State, region.RegionName, region.Link);
             //List<string> offerLinks = new List<string>(GetOffersLinks(regionLink));
            // offerLinks.ForEach(i => Console.WriteLine(i));
-            ParseOffer("https://www.trulia.com/rental-community/9000067073/Point-At-Fairview-669-Covered-Bridge-Pkwy-Prattville-AL-36066/");
+            ParseOffer("https://www.trulia.com/rental/4010620838-1915-Dundee-Dr-Prattville-AL-36066");
         }
 
         private void ParseOffer(string offerLink)
         {
-            string offerHtml;
+            string offerHtml = Constants.WebAttrsNames.NotFound;
             IDocument offerDom;
-            offerHtml = WebHelpers.GetHtml(offerLink);
+            int numOfRetrying = Convert.ToInt32(Resources.NumberOfLoadRetrying);
+            for(int i = 0;i < numOfRetrying; i++)
+            {
+                offerHtml = WebHelpers.GetHtml(offerLink);
+                if(offerHtml == Constants.WebAttrsNames.NotFound)
+                {
+                    //UpdateInternalProxy();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
             if(offerHtml != Constants.WebAttrsNames.NotFound)
             {
-                offerDom = parser.Parse(offerHtml.Replace("trulia.propertyData.set","var ourdata = "));
-
-                ObjectInstance result = offerDom.ExecuteScript("ourdata") as  ObjectInstance;
-                Console.WriteLine(result.Get("id").ToString());              
+                offerDom = parser.Parse(offerHtml.Replace("trulia.propertyData.set","var ourdata = ")); //костыль, призванный решить проблему с не работающими методами сайта в голом HTML(без внешних JS)
+                ObjectInstance basicData = offerDom.ExecuteScript("ourdata") as  ObjectInstance; //получаем JS-переменную, и теперь по ключам вытаскиваем данные
+                Offer o = new Offer(basicData);
+                o.directLink = offerLink;
+                o.FillFromHtmlDocument(offerDom);
             }
         }
 

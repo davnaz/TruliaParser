@@ -106,15 +106,6 @@ namespace TruliaParser {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на https://losangeles.Trulia.org/search/apa.
-        /// </summary>
-        internal static string MainLink {
-            get {
-                return ResourceManager.GetString("MainLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на 10.
         /// </summary>
         internal static string MaxDegreeOfParallelism {
@@ -133,6 +124,15 @@ namespace TruliaParser {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на 3.
+        /// </summary>
+        internal static string NumberOfLoadRetrying {
+            get {
+                return ResourceManager.GetString("NumberOfLoadRetrying", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на proxylist.txt.
         /// </summary>
         internal static string ProxyList {
@@ -147,42 +147,6 @@ namespace TruliaParser {
         internal static string QuerySelectRegionsUndone {
             get {
                 return ResourceManager.GetString("QuerySelectRegionsUndone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на https://geo.Trulia.org/iso/us.
-        /// </summary>
-        internal static string StartLink {
-            get {
-                return ResourceManager.GetString("StartLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на max_price=.
-        /// </summary>
-        internal static string TruliaMaxPricePostfixForGetrequest {
-            get {
-                return ResourceManager.GetString("TruliaMaxPricePostfixForGetrequest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 2500.
-        /// </summary>
-        internal static string TruliaMaxSearchresvalue {
-            get {
-                return ResourceManager.GetString("TruliaMaxSearchresvalue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на min_price=.
-        /// </summary>
-        internal static string TruliaMinPricePostfixForGetrequest {
-            get {
-                return ResourceManager.GetString("TruliaMinPricePostfixForGetrequest", resourceCulture);
             }
         }
     }
