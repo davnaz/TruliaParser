@@ -60,8 +60,7 @@ namespace TruliaParser.DataProviders
             }
             catch(SqlException ex)
             {
-                //throw new Exception(ex.Message, ex);
-
+                throw new Exception(ex.Message, ex);
             }
             finally
             {
@@ -87,7 +86,7 @@ namespace TruliaParser.DataProviders
         /// <param name="spName">name of the stored procedure</param>
         /// <returns>SQL command</returns>
         /// <remarks></remarks>
-        public SqlCommand CreateSQLCommandForInsertSP(string storedProcedureName)
+        public SqlCommand CreateSQLCommandForSP(string storedProcedureName)
         {
             SqlCommand command = new SqlCommand(storedProcedureName, new SqlConnection(Resources.DbConnectionString));
             command.CommandType = CommandType.StoredProcedure;
@@ -210,6 +209,83 @@ namespace TruliaParser.DataProviders
                 regions.Add(new Region(row));
             }            
             return regions;
+        }
+        
+        internal void FinalizeRegion(Region r)
+        {
+            try
+            {
+                SqlCommand finalize = Instance.CreateSQLCommandForSP(Resources.SP_FinalizeRegion);
+                finalize.Parameters.AddWithValue("@ID", r.ID);
+                Instance.ExecureSP(finalize);
+            }
+            catch(Exception ex)
+            {
+                
+                Console.WriteLine("Ошибка при процедуре финализировании регионаб {0}", ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
+        internal void InsertOfferToDb(Offer o)
+        {
+            try
+            {
+                SqlCommand insertOffer = Instance.CreateSQLCommandForSP(Resources.SP_InsertOffer);
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.postId, o.postId);
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.agentName,             ((object)o.agentName                 )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.addressForDisplay,     ((object)o.addressForDisplay         )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.city,                  o.city                  );
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.county,               o.county               );
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.countyFIPS,            ((object)o.countyFIPS                )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.dataPhotos,            ((object)o.dataPhotos                )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.feedId,                ((object)o.feedId                    )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.formattedBedAndBath,   ((object)o.formattedBedAndBath       )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.formattedPrice,        ((object)o.formattedPrice            )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.formattedSqft,         ((object)o.formattedSqft             )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.hasPhotos,             ((object)o.hasPhotos                 )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.isRentalCommunity,     ((object)o.isRentalCommunity         )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.latitude,              ((object)o.latitude                  )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.longitude,             ((object)o.longitude                 )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.locationId,            ((object)o.locationId                )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.listingId,             ((object)o.listingId                 )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.numBathrooms,          ((object)o.numBathrooms              )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.numBedrooms,           ((object)o.numBedrooms               )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.numBeds,               ((object)o.numBeds                   )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.numFullBathrooms,      ((object)o.numFullBathrooms          )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.numPartialBathrooms,   ((object)o.numPartialBathrooms       )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.price,                 ((object)o.price                     )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.truliaRank,            ((object)o.truliaRank                )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.rentalType,            ((object)o.rentalType                )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.zipCode,               ((object)o.zipCode                   )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.streetNumber,          ((object)o.streetNumber              )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.thumbnail,             ((object)o.thumbnail                 )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.sqft,                  ((object)o.sqft                      )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.stateCode,                      o.stateCode             );
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.stateName,                      o.stateName         );
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.street,                ((object)o.street                    )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.phone,                 ((object)o.phone                     )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.idealIncome,           ((object)o.idealIncome               )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.metaInfo,              ((object)o.metaInfo                  )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.features,              ((object)o.features                  )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.communityOtherFeatures,((object)o.communityOtherFeatures    )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.communityFloors,       ((object)o.communityFloors           )??(DBNull.Value));
+                insertOffer.Parameters.AddWithValue(Constants.OfferCellNames.directLink,           o.directLink           );
+
+
+
+
+
+
+
+                Instance.ExecureSP(insertOffer);
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("Ошибка при процедуре финализировании регионаб {0}", ex.Message);
+                throw new Exception(ex.Message);
+            }
         }
 
         #endregion

@@ -79,7 +79,7 @@ namespace TruliaParser {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Data Source=NOTEBOOK;Initial Catalog=Trulia;Integrated Security=True.
+        ///   Ищет локализованную строку, похожую на Data Source=rentml.database.windows.net;Initial Catalog=Trulia;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False.
         /// </summary>
         internal static string DbConnectionString {
             get {
@@ -106,7 +106,7 @@ namespace TruliaParser {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на 10.
+        ///   Ищет локализованную строку, похожую на 5.
         /// </summary>
         internal static string MaxDegreeOfParallelism {
             get {
@@ -147,6 +147,24 @@ namespace TruliaParser {
         internal static string QuerySelectRegionsUndone {
             get {
                 return ResourceManager.GetString("QuerySelectRegionsUndone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SP_FinalizeRegion.
+        /// </summary>
+        internal static string SP_FinalizeRegion {
+            get {
+                return ResourceManager.GetString("SP_FinalizeRegion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SP_AddOffer.
+        /// </summary>
+        internal static string SP_InsertOffer {
+            get {
+                return ResourceManager.GetString("SP_InsertOffer", resourceCulture);
             }
         }
     }

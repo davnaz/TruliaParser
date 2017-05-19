@@ -137,7 +137,7 @@ namespace TruliaParser.Components
 
             if (reply.Status != IPStatus.Success) //если сервак не пингуется, то адьё
             {
-                //Console.WriteLine(" Не доступен!");
+                Console.WriteLine(" Не доступен!,{0}",currentProxy.Address);
                 return true;
             }
             else

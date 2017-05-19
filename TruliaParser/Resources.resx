@@ -122,8 +122,8 @@
     <comment>Базовая страница для адресов страниц, которые нуно парсить</comment>
   </data>
   <data name="DbConnectionString" xml:space="preserve">
-    <value>Data Source=NOTEBOOK;Initial Catalog=Trulia;Integrated Security=True</value>
-    <comment>Эта строка нужна для подключения к БД Trulia на Текущем компьютере NOTEBOOK</comment>
+    <value>Data Source=rentml.database.windows.net;Initial Catalog=Trulia;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False</value>
+    <comment>Эта строка нужна для подключения к БД Trulia на удаленном серваке</comment>
   </data>
   <data name="MaxProxyPing" xml:space="preserve">
     <value>400</value>
@@ -141,7 +141,7 @@
     <comment>Название Процедуры добавления или изменения предложения в БД</comment>
   </data>
   <data name="MaxDegreeOfParallelism" xml:space="preserve">
-    <value>10</value>
+    <value>5</value>
     <comment>Количество потоков. которое будет создавать программа</comment>
   </data>
   <data name="InsertRegionSP" xml:space="preserve">
@@ -154,5 +154,13 @@
   <data name="NumberOfLoadRetrying" xml:space="preserve">
     <value>3</value>
     <comment>Количество попыток загрузки того или иного ресурса</comment>
+  </data>
+  <data name="SP_FinalizeRegion" xml:space="preserve">
+    <value>SP_FinalizeRegion</value>
+    <comment>Имя процедуры для обозначения в БД, что регион спарсен.</comment>
+  </data>
+  <data name="SP_InsertOffer" xml:space="preserve">
+    <value>SP_AddOffer</value>
+    <comment>Название добавления предложения в БД</comment>
   </data>
 </root>

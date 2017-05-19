@@ -58,10 +58,10 @@ namespace TruliaParser
         /// количетсво общих ванн. комнат
         /// </summary>
         public int numPartialBathrooms { get; set; }  //количетсво общих ванн. комнат
-        /// <summary>
-        /// ссылка до предложения (не включая главный домен)
-        /// </summary>
-        public string pdpURL { get; set; }              //ссылка до предложения (не включая главный домен)
+        ///// <summary>
+        ///// ссылка до предложения (не включая главный домен)
+        ///// </summary>
+        //public string pdpURL { get; set; }              //ссылка до предложения (не включая главный домен)
         public double price { get; set; }               
         /// <summary>
         /// внутренняя оценка сервиса
@@ -160,7 +160,7 @@ namespace TruliaParser
             this.numBeds = IntGetFromJintObject(data, Constants.OfferJSObjectKeys.numBeds);
             this.numFullBathrooms = IntGetFromJintObject(data, Constants.OfferJSObjectKeys.numFullBathrooms);
             this.numPartialBathrooms = IntGetFromJintObject(data, Constants.OfferJSObjectKeys.numPartialBathrooms);
-            this.pdpURL = Resources.BaseLink + StringGetFromJintObject(data, Constants.OfferJSObjectKeys.pdpURL);
+            //this.pdpURL = Resources.BaseLink + StringGetFromJintObject(data, Constants.OfferJSObjectKeys.pdpURL);
             this.price = DoubleGetFromJintObject(data, Constants.OfferJSObjectKeys.price);
             this.sqft = DoubleGetFromJintObject(data, Constants.OfferJSObjectKeys.sqft);
             this.stateCode = StringGetFromJintObject(data, Constants.OfferJSObjectKeys.stateCode);
@@ -214,7 +214,7 @@ namespace TruliaParser
             try
             {
                 IElement idealIncomeDom = offerDom.QuerySelector(Constants.OfferPageSelectors.idealIncome);
-                this.idealIncome = idealIncomeDom != null ? Double.Parse(idealIncomeDom.TextContent.TrimStart('$'))*1000 : -1;
+                this.idealIncome = idealIncomeDom != null ? Double.Parse(idealIncomeDom.TextContent.TrimStart('$').Replace(",","")) : -1;
             }
             catch (Exception ex)
             {

@@ -23,18 +23,27 @@ namespace TruliaParser
 
             ParallelOptions options = new ParallelOptions();
             options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
+            Console.WriteLine("Получаю список неспарсенных регионов...");
+            List<Region> regions =  DataProvider.Instance.GetRegionsFromDb();
+            Console.WriteLine("Получено ссылок: {0}", regions.Count);
+           // ProxySolver.Instance.getNewProxy();
+            foreach (Region reg in regions)
+            {
+                Console.WriteLine(reg);
+            }
 
-            //List<Region> regions =  DataProvider.Instance.GetRegionsFromDb();
-            //foreach (Region reg in regions)
+
+            //Parallel.ForEach(regions, options, (reg) =>
             //{
-            //    Console.WriteLine(reg);
-            //}
+                foreach(Region r in regions)
+                {
+                  Parser p = new Parser();
+                  p.StartParsing(r);
+                }
+            //Parser p = new Parser();
+            //
+            //p.StartParsing(regions[830]);
 
-
-            //Parallel.ForEach(citiesList, options, (city) =>
-            //{
-                Parser p = new Parser();
-            p.StartParsing(new Region("New York", "Richmond", "https://www.trulia.com/for_rent/36085_c/"));
 
             //});
 
