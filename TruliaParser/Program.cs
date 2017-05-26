@@ -26,26 +26,25 @@ namespace TruliaParser
             Console.WriteLine("Получаю список неспарсенных регионов...");
             List<Region> regions =  DataProvider.Instance.GetRegionsFromDb();
             Console.WriteLine("Получено ссылок: {0}", regions.Count);
-           // ProxySolver.Instance.getNewProxy();
+            ProxySolver.Instance.getNewProxy();
             foreach (Region reg in regions)
             {
                 Console.WriteLine(reg);
             }
 
 
-            //Parallel.ForEach(regions, options, (reg) =>
-            //{
-                foreach(Region r in regions)
-                {
+            Parallel.ForEach(regions, options, (reg) =>
+            {
+                
                   Parser p = new Parser();
-                  p.StartParsing(r);
-                }
+                  p.StartParsing(reg);
+                
             //Parser p = new Parser();
             //
             //p.StartParsing(regions[830]);
 
 
-            //});
+            });
 
             
 

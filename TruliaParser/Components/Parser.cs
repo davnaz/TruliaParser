@@ -93,8 +93,8 @@ namespace TruliaParser.Components
             string regionLink = region.Link;
             Console.WriteLine("Beginning the parsing new region:\nState: {0}, County: {1}, Link: {2}", region.State, region.RegionName, region.Link);
             List<string> offerLinks = new List<string>(GetOffersLinks(regionLink));
-            //offerLinks.ForEach(i => ParseOffer(i));
-            if(offerLinks.Count > region.OffersCount*0.9)
+            offerLinks.ForEach(i => ParseOffer(i));
+            if(offerLinks.Count >= region.OffersCount*0.9 || (offerLinks.Count- region.OffersCount < 20))
             {
                 DataProvider.Instance.FinalizeRegion(region);
             }
@@ -102,7 +102,7 @@ namespace TruliaParser.Components
             {
                 Console.WriteLine("Кажется, регион неправильно спарсился(забрал ссылки)собрано/ожидалось: {0},{1}",offerLinks.Count,region.OffersCount);
             }
-            Console.ReadKey();
+            //Console.ReadKey();
             
         }
 
@@ -129,14 +129,14 @@ namespace TruliaParser.Components
                 catch (Exception e)
                 {
                     Console.WriteLine("Ошибка при получении количества предложений региона:{0},{1}", regionLink, e.Message);
-                    Console.ReadKey();
+                    //Console.ReadKey();
                     return -1;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("Ошибка при получении страницы количества предложений региона:{0},{1}", regionLink, e.Message);
-                Console.ReadKey();
+                //Console.ReadKey();
                 return -1;
             }
 
@@ -147,12 +147,13 @@ namespace TruliaParser.Components
             string offerHtml = Constants.WebAttrsNames.NotFound;
             IDocument offerDom;
             int numOfRetrying = Convert.ToInt32(Resources.NumberOfLoadRetrying);
-            for(int i = 0;i < numOfRetrying; i++)
+            while(true)
             {
                 offerHtml = WebHelpers.GetHtmlThrowProxy(offerLink,currentProxy);
                 if(offerHtml == Constants.WebAttrsNames.NotFound)
                 {
                     UpdateInternalProxy();
+                    Console.WriteLine("Хреновый прокси! {0}", offerLink);
                 }
                 else
                 {
